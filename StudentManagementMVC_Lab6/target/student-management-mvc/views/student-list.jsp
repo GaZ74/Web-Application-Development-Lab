@@ -20,6 +20,54 @@
             padding: 20px;
         }
         
+        .navbar {
+            background:#fff;
+            padding:15px 25px;
+            border-radius:10px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:20px;
+            box-shadow:0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .navbar-right {
+            display:flex;
+            gap:20px;
+            align-items:center;
+        }
+        
+        .user-info {
+            color:#444;
+            font-weight:600;
+        }
+        
+        .role-badge {
+            padding:3px 8px;
+            border-radius:5px;
+            margin-left:10px;
+            font-size:12px;
+            color:white;
+        }
+        
+        .role-admin {
+            background:#d9534f;
+        }
+        
+        .role-user {
+            background:#0275d8;
+        }
+        
+        .navbar a {
+            text-decoration:none;
+            font-weight:bold;
+            color:#667eea;
+        }
+        
+        .navbar a:hover {
+            text-decoration:underline;
+        }
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -148,9 +196,22 @@
     </style>
 </head>
 <body>
+    <!-- TODO: Add navigation bar -->
+    <div class="navbar">
+        <h2>📚 Student Management System</h2>
+        <div class="navbar-right">
+        <div class="user-info">
+            <span>Welcome, ${sessionScope.fullName}</span>
+            <span class="role-badge role-${sessionScope.role}">
+                ${sessionScope.role}
+            </span>
+        </div>
+        <a href="dashboard">Dashboard</a>
+        <a href="logout">Logout</a>
+        </div>
+    </div>
+            
     <div class="container">
-        <h1>📚 Student Management System</h1>
-        <p class="subtitle">MVC Pattern with Jakarta EE & JSTL</p>
         
         <form method="get" action="student" style="margin-bottom:20px; display:flex; gap:10px; align-items:center;">
             <input type="hidden" name="action" value="search">
@@ -182,12 +243,14 @@
             </div>
         </c:if>
         
-        <!-- Add New Student Button -->
-        <div style="margin-bottom: 20px;">
+        <!-- Add New Student Button (admin only) -->
+        <c:if test="${sessionScope.role eq 'admin'}">
+            <div style="margin-bottom: 20px;">
             <a href="student?action=new" class="btn btn-primary">
                 ➕ Add New Student
             </a>
-        </div>
+            </div>
+        </c:if>
         
         <!-- Major Filtering -->
         <div class="filter-box" style="margin-bottom: 20px;">
@@ -229,7 +292,9 @@
                                     <c:if test="${sortBy == 'email'}">${order == 'asc' ? '▲' : '▼'}</c:if></a></th>
                             <th><a href="student?action=sort&sortBy=major&order=asc">Major
                                     <c:if test="${sortBy == 'major'}">${order == 'asc' ? '▲' : '▼'}</c:if></a></th>
+                            <c:if test="${sessionScope.role eq 'admin'}">
                             <th>Actions</th>
+                            </c:if>
                         </tr>
                     </thead>
                     <tbody>
@@ -240,7 +305,9 @@
                                 <td>${student.fullName}</td>
                                 <td>${student.email}</td>
                                 <td>${student.major}</td>
-                                <td>
+                                
+                                <c:if test="${sessionScope.role eq 'admin'}">
+                                    <td>
                                     <div class="actions">
                                         <a href="student?action=edit&id=${student.id}" class="btn btn-secondary">
                                             ✏️ Edit
@@ -251,7 +318,8 @@
                                             🗑️ Delete
                                         </a>
                                     </div>
-                                </td>
+                                    </td>
+                                </c:if> 
                             </tr>
                         </c:forEach>
                     </tbody>

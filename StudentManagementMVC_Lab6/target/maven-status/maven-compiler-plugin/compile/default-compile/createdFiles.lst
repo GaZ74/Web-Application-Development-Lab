@@ -1,4 +1,5 @@
 com\dao\StudentDAO.class
+com\controller\ChangePasswordController.class
 com\model\Student.class
 com\controller\DashboardController.class
 com\controller\LogoutController.class
