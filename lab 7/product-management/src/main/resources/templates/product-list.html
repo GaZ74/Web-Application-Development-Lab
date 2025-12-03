@@ -105,6 +105,21 @@
             flex: 1;
         }
         
+        .advanced-search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .advanced-search-form input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            flex: 1;
+            min-width: 150px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -151,27 +166,56 @@
         <div th:if="${error}" class="alert alert-error">
             <span th:text="${error}"></span>
         </div>
-        
+        <!-- Go to Dashboard -->
+         <div class="actions" style="margin-bottom: 20px;">
+            <a th:href="@{products/dashboard}" class="btn btn-primary">📊 Dashboard</a>
+         </div>
+
         <!-- Actions -->
         <div class="actions">
             <a th:href="@{/products/new}" class="btn btn-primary">➕ Add New Product</a>
-            
+            <!-- Simple Search -->
             <form th:action="@{/products/search}" method="get" class="search-form">
                 <input type="text" name="keyword" th:value="${keyword}" placeholder="Search products..." />
                 <button type="submit" class="btn btn-primary">🔍 Search</button>
             </form>
+            <!-- Advanced Search -->
+             <form th:action="@{/products/advanced-search}" method="get" class="advanced-search-form">
+                <input type="text" name="name" placeholder="Name contains..." th:value="${name}" />
+                <input type="text" name="category" placeholder="Category..." th:value="${category}" />
+                <input type="number" step="0.01" name="minPrice" placeholder="Min Price" th:value="${minPrice}" />
+                <input type="number" step="0.01" name="maxPrice" placeholder="Max Price" th:value="${maxPrice}" />
+                <button type="submit" class="btn btn-primary">🔎 Advanced Search</button>
+             </form>
         </div>
-        
+        <!-- Category Filter -->
+         <div class="category-filters">
+            <span>Filter by Category:</span>
+            <a th:href="@{/products(category='All', sortBy=${sortBy}, sortDir=${sortDir})}" class="btn btn-secondary btn-sm">All</a>
+            <a th:each="cat : ${categories}" th:href="@{/products(category=${cat}, sortBy=${sortBy}, sortDir=${sortDir})}" th:text="${cat}" class="btn btn-secondary btn-sm"></a>
+</div>
         <!-- Products Table -->
         <div th:if="${products != null and !products.isEmpty()}">
             <table>
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
+                        <th>
+                            <a th:href="@{/products(category=${category}, sortBy='productCode', sortDir=${sortDir=='asc'?'desc':'asc'},page=0,size=${size})}">
+                            Code<span th:if="${sortBy=='productCode'}" th:text="${sortDir=='asc'?'↑':'↓'}"></span></a>
+                        </th>
+                        <th>
+                            <a th:href="@{/products(category=${category}, sortBy='name', sortDir=${sortDir=='asc'?'desc':'asc'}, page=0, size=${size})}">
+                            Name<span th:if="${sortBy=='name'}" th:text="${sortDir=='asc'?'↑':'↓'}"></span></a>
+                        </th>
+                        <th>
+                            <a th:href="@{/products(category=${category}, sortBy='price', sortDir=${sortDir=='asc'?'desc':'asc'}, page=0, size=${size})}">
+                            Price<span th:if="${sortBy=='price'}" th:text="${sortDir=='asc'?'↑':'↓'}"></span></a>
+                        </th>
+                        <th>
+                            <a th:href="@{/products(category=${category}, sortBy='quantity', sortDir=${sortDir=='asc'?'desc':'asc'}, page=0, size=${size})}">
+                            Quantity<span th:if="${sortBy=='quantity'}" th:text="${sortDir=='asc'?'↑':'↓'}"></span></a>
+                        </th>
                         <th>Category</th>
                         <th>Actions</th>
                     </tr>
@@ -187,7 +231,7 @@
                         <td>
                             <div class="actions-column">
                                 <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-success btn-sm">✏️ Edit</a>
-                                <a th:href="@{/products/delete/{id}(id=${product.id})}" 
+                                <a th:href="@{/products/delete/{id}(id=${product.id})}"
                                    class="btn btn-danger btn-sm"
                                    onclick="return confirm('Are you sure you want to delete this product?')">
                                     🗑️ Delete
@@ -197,6 +241,15 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="pagination" style="margin-top:20px; text-align:center;">
+                <a th:if="${currentPage > 0}"
+                    th:href="@{${pageUrl}(page=${currentPage-1},size=${size},keyword=${keyword},name=${name},category=${category},minPrice=${minPrice},maxPrice=${maxPrice})}"
+                    class="btn btn-primary">Previous</a>
+                <span th:text="'Page ' + (${currentPage}+1) + ' of ' + ${totalPages}"></span>
+                <a th:if="${currentPage + 1 < totalPages}"
+                th:href="@{${pageUrl}(page=${currentPage+1},size=${size},keyword=${keyword},name=${name},category=${category},minPrice=${minPrice},maxPrice=${maxPrice})}"
+                class="btn btn-primary">Next</a>
+            </div>
         </div>
         
         <!-- Empty State -->
