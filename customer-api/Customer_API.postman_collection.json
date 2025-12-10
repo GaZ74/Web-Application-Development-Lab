@@ -1,0 +1,275 @@
+{
+	"info": {
+		"_postman_id": "ee35acbe-40f4-4dcb-a31f-05b0716a1bce",
+		"name": "Customer-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "50562813"
+	},
+	"item": [
+		{
+			"name": "Get All Customers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET by ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "inherit"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST create",
+			"request": {
+				"auth": {
+					"type": "inherit"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"id\": \"6\",\r\n\"customerCode\": \"C006\",\r\n\"fullName\": \"Leon Kennedy\",\r\n\"email\": \"leon.kennedy@example.com\",\r\n\"phone\": \"+1-666-0105\",\r\n\"address\": \"654 Maple Dr, Raccoon, AZ 85001\",\r\n\"status\": \"ACTIVE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT update",
+			"request": {
+				"auth": {
+					"type": "inherit"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"id\": \"6\",\r\n\"customerCode\": \"C006\",\r\n\"fullName\": \"Future Leon Kennedy\",\r\n\"email\": \"Future.leon.kennedy@example.com\",\r\n\"phone\": \"+1-666-0105\",\r\n\"address\": \"654 Maple Dr, Raccoon, AZ 85001\",\r\n\"status\": \"ACTIVE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/customers/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH partial update",
+			"request": {
+				"auth": {
+					"type": "inherit"
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"id\": \"6\",\r\n\"customerCode\": \"C006\",\r\n\"fullName\": \"RE9 Leon Kennedy\",\r\n\"email\": \"RE9.leon.kennedy@example.com\",\r\n\"phone\": \"+1-666-0105\",\r\n\"address\": \"654 Maple Dr, Raccoon, AZ 85001\",\r\n\"status\": \"ACTIVE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/customers/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE customer",
+			"request": {
+				"auth": {
+					"type": "inherit"
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"id\": \"6\",\r\n\"customerCode\": \"C006\",\r\n\"fullName\": \"RE9 Leon Kennedy\",\r\n\"email\": \"RE9.leon.kennedy@example.com\",\r\n\"phone\": \"+1-666-0105\",\r\n\"address\": \"654 Maple Dr, Raccoon, AZ 85001\",\r\n\"status\": \"ACTIVE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/customers/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filter by status",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "inherit"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"id\": \"6\",\r\n\"customerCode\": \"C006\",\r\n\"fullName\": \"RE9 Leon Kennedy\",\r\n\"email\": \"RE9.leon.kennedy@example.com\",\r\n\"phone\": \"+1-666-0105\",\r\n\"address\": \"654 Maple Dr, Raccoon, AZ 85001\",\r\n\"status\": \"ACTIVE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/customers/status/inactive",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers",
+						"status",
+						"inactive"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search results",
+			"request": {
+				"auth": {
+					"type": "inherit"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/customers/search?keyword=john",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers",
+						"search"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "john"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
