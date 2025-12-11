@@ -29,42 +29,40 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/customers")
 @CrossOrigin(origins = "*")
 public class CustomerRestController {
-    
+
     @Autowired
     private CustomerService customerService;
-    
+
     // GET - All users can view
     @GetMapping
     public ResponseEntity<List<CustomerResponseDTO>> getAllCustomers() {
-        List<CustomerResponseDTO> customers = customerService.getAllCustomers();
-        return ResponseEntity.ok(customers);
+        return ResponseEntity.ok(customerService.getAllCustomers());
     }
-    
+
     // GET by ID - All users can view
     @GetMapping("/{id}")
     public ResponseEntity<CustomerResponseDTO> getCustomerById(@PathVariable Long id) {
-        CustomerResponseDTO customer = customerService.getCustomerById(id);
-        return ResponseEntity.ok(customer);
+        return ResponseEntity.ok(customerService.getCustomerById(id));
     }
-    
+
     // POST - Only ADMIN can create
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<CustomerResponseDTO> createCustomer(@Valid @RequestBody CustomerRequestDTO requestDTO) {
-        CustomerResponseDTO created = customerService.createCustomer(requestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    public ResponseEntity<CustomerResponseDTO> createCustomer(
+            @Valid @RequestBody CustomerRequestDTO requestDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                customerService.createCustomer(requestDTO));
     }
-    
+
     // PUT - Only ADMIN can update
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CustomerResponseDTO> updateCustomer(
             @PathVariable Long id,
             @Valid @RequestBody CustomerRequestDTO requestDTO) {
-        CustomerResponseDTO updated = customerService.updateCustomer(id, requestDTO);
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.ok(customerService.updateCustomer(id, requestDTO));
     }
-    
+
     // DELETE - Only ADMIN can delete
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
@@ -74,17 +72,17 @@ public class CustomerRestController {
         response.put("message", "Customer deleted successfully");
         return ResponseEntity.ok(response);
     }
-    
-    // SEARCH - All authenticated users
+
+    // SEARCH
     @GetMapping("/search")
     public ResponseEntity<List<CustomerResponseDTO>> searchCustomers(@RequestParam String keyword) {
-        List<CustomerResponseDTO> customers = customerService.searchCustomers(keyword);
-        return ResponseEntity.ok(customers);
+        return ResponseEntity.ok(customerService.searchCustomers(keyword));
     }
+
     // GET customers by status
     @GetMapping("/status/{status}")
     public ResponseEntity<List<CustomerResponseDTO>> getCustomersByStatus(@PathVariable String status) {
-        List<CustomerResponseDTO> customers = customerService.getCustomersByStatus(status);
-        return ResponseEntity.ok(customers);
+        return ResponseEntity.ok(customerService.getCustomersByStatus(status));
     }
 }
+

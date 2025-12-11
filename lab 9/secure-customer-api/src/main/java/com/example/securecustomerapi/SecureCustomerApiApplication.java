@@ -3,8 +3,8 @@ package com.example.securecustomerapi;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.example.securecustomerapi.util.HashPasswordGenerator;
 
 @SpringBootApplication
 public class SecureCustomerApiApplication implements CommandLineRunner {
@@ -15,10 +15,8 @@ public class SecureCustomerApiApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-
         String plainPassword = "admin";
-        String hashedPassword = encoder.encode(plainPassword);
+        String hashedPassword = HashPasswordGenerator.hash(plainPassword);
 
         System.out.println("Hashed Password: " + hashedPassword);
     }

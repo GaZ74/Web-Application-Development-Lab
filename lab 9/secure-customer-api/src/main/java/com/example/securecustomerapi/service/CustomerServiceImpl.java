@@ -102,19 +102,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
     
     @Override
-    public List<CustomerResponseDTO> getCustomersByStatus(String status) {
-    CustomerStatus customerStatus;
-    try {
-        customerStatus = CustomerStatus.valueOf(status.toUpperCase());
-    } catch (IllegalArgumentException e) {
-        throw new RuntimeException("Invalid customer status: " + status);
-    }
+public List<CustomerResponseDTO> getCustomersByStatus(String status) {
+    CustomerStatus enumStatus = CustomerStatus.valueOf(status.toUpperCase());
 
-    return customerRepository.findByStatus(customerStatus)
+    return customerRepository.findByStatus(enumStatus)
             .stream()
             .map(this::convertToResponseDTO)
             .collect(Collectors.toList());
 }
+
     
     // Helper Methods for DTO Conversion
     
