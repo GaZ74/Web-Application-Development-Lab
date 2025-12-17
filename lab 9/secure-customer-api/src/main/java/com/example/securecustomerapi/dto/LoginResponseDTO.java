@@ -3,6 +3,7 @@ package com.example.securecustomerapi.dto;
 public class LoginResponseDTO {
     
     private String token;
+    private String refreshToken;
     private String type = "Bearer";
     private String username;
     private String email;
@@ -11,8 +12,9 @@ public class LoginResponseDTO {
     public LoginResponseDTO() {
     }
     
-    public LoginResponseDTO(String token, String username, String email, String role) {
+    public LoginResponseDTO(String token, String refreshToken, String username, String email, String role) {
         this.token = token;
+        this.refreshToken = refreshToken;
         this.username = username;
         this.email = email;
         this.role = role;
@@ -33,6 +35,14 @@ public class LoginResponseDTO {
     
     public void setType(String type) {
         this.type = type;
+    }
+    
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+    
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
     
     public String getUsername() {

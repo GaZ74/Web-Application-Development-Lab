@@ -28,6 +28,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private CustomUserDetailsService customUserDetailsService;
     
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        boolean shouldSkip = path.startsWith("/api/auth/login") || path.startsWith("/api/auth/register");
+        logger.debug("Path: " + path + ", Should skip filter: " + shouldSkip);
+        // Skip JWT filtering for public authentication endpoints
+        return shouldSkip;
+    }
+    
+    @Override
     protected void doFilterInternal(HttpServletRequest request, 
                                    HttpServletResponse response, 
                                    FilterChain filterChain) throws ServletException, IOException {

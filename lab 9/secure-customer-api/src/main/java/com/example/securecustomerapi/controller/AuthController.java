@@ -11,13 +11,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.securecustomerapi.dto.ChangePasswordDTO;
+import com.example.securecustomerapi.dto.ForgotPasswordRequestDTO;
+import com.example.securecustomerapi.dto.ForgotPasswordResponseDTO;
 import com.example.securecustomerapi.dto.LoginRequestDTO;
 import com.example.securecustomerapi.dto.LoginResponseDTO;
+import com.example.securecustomerapi.dto.RefreshTokenDTO;
 import com.example.securecustomerapi.dto.RegisterRequestDTO;
+import com.example.securecustomerapi.dto.ResetPasswordRequestDTO;
 import com.example.securecustomerapi.dto.UserResponseDTO;
 import com.example.securecustomerapi.service.UserService;
 
@@ -57,6 +63,41 @@ public class AuthController {
         // In JWT, logout is handled client-side by removing token
         Map<String, String> response = new HashMap<>();
         response.put("message", "Logged out successfully. Please remove token from client.");
+        return ResponseEntity.ok(response);
+    }
+    
+    @PutMapping("/change-password")
+    public ResponseEntity<Map<String, String>> changePassword(@Valid @RequestBody ChangePasswordDTO dto) {
+        // 1. Get current user from SecurityContext
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        
+        // 2-5. Service handles verification, validation, hashing, and update
+        userService.changePassword(username, dto);
+        
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Password changed successfully");
+        return ResponseEntity.ok(response);
+    }
+    
+    @PostMapping("/forgot-password")
+    public ResponseEntity<ForgotPasswordResponseDTO> forgotPassword(@Valid @RequestBody ForgotPasswordRequestDTO request) {
+        ForgotPasswordResponseDTO response = userService.forgotPassword(request);
+        return ResponseEntity.ok(response);
+    }
+    
+    @PostMapping("/reset-password")
+    public ResponseEntity<Map<String, String>> resetPassword(@Valid @RequestBody ResetPasswordRequestDTO request) {
+        userService.resetPassword(request);
+        
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Password reset successfully. You can now login with your new password.");
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<LoginResponseDTO> refresh(@Valid @RequestBody RefreshTokenDTO dto) {
+        LoginResponseDTO response = userService.refreshToken(dto);
         return ResponseEntity.ok(response);
     }
 }
